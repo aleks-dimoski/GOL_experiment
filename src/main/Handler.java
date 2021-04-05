@@ -41,9 +41,9 @@ public class Handler {
 					
 					if(obj.dir < obj2.dir+120 && obj.dir > obj2.dir-120) {
 						if (dist < 200) {
-							// Cohesion
-							cX -= .05*x_dist/10;
-							cY -= .05*y_dist/10;
+							// Cohesion 200, 0.05, 0.05
+							cX -=  0.05*x_dist/10;
+							cY -=  0.05*y_dist/10;
 							numNearby[0]++;
 						}
 						if (dist < 50) {
@@ -53,7 +53,7 @@ public class Handler {
 							numNearby[1]++;
 						}
 						if (dist < 30) {
-							// Separation
+							// Separation 30, 0.02, 0.02
 							sX += 0.02*x_dist;
 							sY += 0.02*y_dist;
 							numNearby[2]++;
@@ -63,7 +63,8 @@ public class Handler {
 			}
 			
 			if(Math.pow(obj.getVelX(), 2) + Math.pow(obj.getVelY(), 2) < 25) {
-				obj.setVelY(1.2*obj.getVelY()+cY/numNearby[0]+dY/numNearby[1]+sY/numNearby[2]);
+				obj.setVelY(1.2*obj.getVelY()+
+						cY/numNearby[0]+dY/numNearby[1]+sY/numNearby[2]);
 				obj.setVelX(1.2*obj.getVelX()+cX/numNearby[0]+dX/numNearby[1]+sX/numNearby[2]);
 			} else {
 				obj.setVelY(.9*obj.getVelY()+cY/numNearby[0]+dY/numNearby[1]+sY/numNearby[2]);

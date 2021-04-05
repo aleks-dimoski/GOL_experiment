@@ -21,16 +21,7 @@ public class Window extends Canvas {
         frame.setFocusable(true);
         frame.requestFocus();
         
-        this.setSize(400, 300);
-        objects = new Handler();
-        for(int i = 0; i < 500; i++) {
-        	double sizeMult = Math.random()+.4f;
-        	Boid boi = new Boid(Math.random()*600,Math.random()*600,sizeMult*10,sizeMult*10);
-        	boi.setVelX(3*(Math.random()-0.5));
-        	boi.setVelY(3*(Math.random()-0.5));
-        	objects.addObject(boi);
-        }
-        
+        this.setSize(500, 400);
         frame.setFocusTraversalKeysEnabled(false);
         frame.addKeyListener(new Keyboard(objects));
         
@@ -39,9 +30,18 @@ public class Window extends Canvas {
         frame.pack();
         frame.setVisible(true);
         
+        objects = new Handler();
+        for(int i = 0; i < 350; i++) {
+        	double sizeMult = Math.random()*0.4+1.2;
+        	Boid boi = new Boid(Math.random()*frame.getWidth(),Math.random()*frame.getHeight(),sizeMult*10,sizeMult*10);
+        	boi.setVelX(3*(Math.random()-0.5));
+        	boi.setVelY(3*(Math.random()-0.5));
+        	objects.addObject(boi);
+        }
+        
     }
     public void tick() {
-    	frame.requestFocus();
+    	//frame.requestFocus();
     	objects.tick();
     }
     public void render() {

@@ -7,7 +7,6 @@ import java.util.Random;
 import main.Window;
 
 public class Boid extends Obj {
-	public int rad = 5;
 	Random rand;
 	Color col;
 	double wave;
@@ -26,8 +25,15 @@ public class Boid extends Obj {
 		col = new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255));
 		wave = Math.random()*2*Math.PI;
 	}
+	public void changeSize() {
+		double size;
+		size = Math.sin(wave*5)*.5f+.1f;
+		
+		this.w = size*15;
+		this.h = size*15;
+	}
 	public void tick() {
-		wave += Math.random()*.005+.005;
+		wave += Math.random()*0.005+.005;
 		velX += Math.random()*Math.cos(wave);
 		velY += Math.random()*Math.sin(wave*1.3);
 		
@@ -47,18 +53,18 @@ public class Boid extends Obj {
 		dir = Math.atan2(velY, velX);
 		
 		if(x > Window.frame.getWidth()) {
-			x = 5;
-		} else if (x < 0) {
+			x = -5;
+		} else if (x < -5) {
 			x = Window.frame.getWidth()-5;
 		}
 		if(y > Window.frame.getHeight()) {
-			y = 5;
-		} else if (y < 0) {
+			y = -5;
+		} else if (y < -5) {
 			y = Window.frame.getHeight()-5;
 		}
 	}
 	public void render(Graphics g) {
-		g.setColor(col);
+		g.setColor(new Color((int)(Math.cos(.5*wave)*127.5+127.5), (int)(Math.cos(.39*wave)*127.5+127.5), (int)(Math.cos(.3*wave)*127.5+127.5)));
 		g.fillOval((int)x, (int)y, (int)w, (int)h);
 	}
 }
