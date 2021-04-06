@@ -21,7 +21,7 @@ public class Window extends Canvas {
         frame.setFocusable(true);
         frame.requestFocus();
         
-        this.setSize(500, 400);
+        this.setSize(800, 600);
         frame.setFocusTraversalKeysEnabled(false);
         frame.addKeyListener(new Keyboard(objects));
         
@@ -31,7 +31,7 @@ public class Window extends Canvas {
         frame.setVisible(true);
         
         objects = new Handler();
-        for(int i = 0; i < 350; i++) {
+        for(int i = 0; i < 600; i++) {
         	double sizeMult = Math.random()*0.4+1.2;
         	Boid boi = new Boid(Math.random()*frame.getWidth(),Math.random()*frame.getHeight(),sizeMult*10,sizeMult*10);
         	boi.setVelX(3*(Math.random()-0.5));

@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public abstract class Obj {
 	double x, y;
@@ -38,6 +39,9 @@ public abstract class Obj {
 		this.y += this.velY;
 	}
 	public void render(Graphics g) {
+		
+	}
+	public void compare(ArrayList<Obj> objects) {
 		
 	}
 	public double getX() {
