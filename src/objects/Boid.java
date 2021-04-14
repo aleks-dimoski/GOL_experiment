@@ -3,6 +3,7 @@ package objects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import main.Window;
@@ -21,6 +22,7 @@ public class Boid extends Obj {
 		col = new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255));
 		wave = Math.random()*2*Math.PI;
 	}
+	
 	public Boid(double x, double y, double w, double h) {
 		super(x, y, w, h);
 		setId(ID.Boid);
@@ -28,6 +30,7 @@ public class Boid extends Obj {
 		col = new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255));
 		wave = Math.random()*2*Math.PI;
 	}
+	
 	public void changeSize() {
 		double size;
 		size = Math.sin(wave*5)*.5f+.1f;
@@ -35,6 +38,7 @@ public class Boid extends Obj {
 		this.w = size*15;
 		this.h = size*15;
 	}
+	
 	public void tick() {
 		dY = dX = cY = cX = sY = sX = 0;
 		numNearby = new int[] {1,1,1};
@@ -69,6 +73,7 @@ public class Boid extends Obj {
 			y = Window.frame.getHeight()-5;
 		}
 	}
+	
 	public void compare(ArrayList<Obj> objects) {
 		for(Obj obj : objects) {
 			if(!(this.equals(obj))) {
@@ -78,38 +83,56 @@ public class Boid extends Obj {
 				
 				if(dir < obj.dir+120 && dir > obj.dir-120) {
 					if (dist < 200) {
-						// Cohesion
+						// Cohesion 200
 						cX -=  0.055*x_dist/10;
 						cY -=  0.055*y_dist/10;
 						numNearby[0]++;
 					}
 					if (dist < 50) {
-						// Alignment
+						// Alignment 50
 						dX += 0.5*(obj.getVelX()-getVelX());
 						dY += 0.5*(obj.getVelY()-getVelY());
 						numNearby[1]++;
 					}
 					if (dist < 30) {
-						// Separation
+						// Separation 30
 						sX += 0.02*x_dist;
 						sY += 0.02*y_dist;
 						numNearby[2]++;
 					}
 				}
+				
+				//col = new Color(255*objects.size()/numNearby[0],255*objects.size()/numNearby[1],255*objects.size()/numNearby[2]);
+				int R = (int)(255*2*numNearby[0]/(objects.size()));
+				int G = (int)(255*2*numNearby[1]/(objects.size()));
+				int B = (int)(255*2*numNearby[2]/(objects.size()));
+				
+				if(R > 255)
+					R = 255;
+				if(G > 255)
+					G = 255;
+				if(B > 255)
+					B = 255;
+				col = new Color(R,G,B);
+				
+				this.w = numNearby[2]/2+8;
+				this.h = numNearby[2]/2+8;
 			}
 		}
-		if(Math.pow(getVelX(), 2) + Math.pow(getVelY(), 2) < 25) {
+		if(Math.pow(getVelX(), 2) + Math.pow(getVelY(), 2) < 5) {
 			setVelY(1.2*getVelY()+cY/numNearby[0]+dY/numNearby[1]+sY/numNearby[2]);
 			setVelX(1.2*getVelX()+cX/numNearby[0]+dX/numNearby[1]+sX/numNearby[2]);
 		} else {
 			setVelY(.9*getVelY()+cY/numNearby[0]+dY/numNearby[1]+sY/numNearby[2]);
 			setVelX(.9*getVelX()+cX/numNearby[0]+dX/numNearby[1]+sX/numNearby[2]);
 		}
-		
 	}
+	
 	public void render(Graphics g) {
 		// Include Math.random() in sinusoid for scaly effect
-		g.setColor(new Color((int)(Math.cos(.5*wave)*127.5+127.5), (int)(Math.cos(.39*wave)*127.5+127.5), (int)(Math.cos(.3*wave)*127.5+127.5)));
+		//g.setColor(new Color((int)(Math.cos(.5*wave)*127.5+127.5), (int)(Math.cos(.39*wave)*127.5+127.5), (int)(Math.cos(.3*wave)*127.5+127.5)));
+		//g.setColor(new Color((int)(Math.cos(.5*wave+Math.random())*127.5+127.5), (int)(Math.cos(.39*wave+Math.random())*127.5+127.5), (int)(Math.cos(.3*wave+Math.random())*127.5+127.5)));
+		g.setColor(col);
 		g.fillOval((int)x, (int)y, (int)w, (int)h);
 	}
 }

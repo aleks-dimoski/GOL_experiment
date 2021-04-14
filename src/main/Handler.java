@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import objects.Obj;
 
 public class Handler {
-	double wave = 0;
 	private ArrayList<Obj> objects = new ArrayList<Obj>();
 	
 	public ArrayList<Obj> getObjects() {
@@ -24,7 +23,6 @@ public class Handler {
 		}
 	}
 	public void tick() {
-		wave += 0.01f;
 		for(Obj obj : objects) {
 			obj.compare(objects);
 			obj.tick();
